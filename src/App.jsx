@@ -12,7 +12,10 @@ const App = () => {
         <Navbar />
         <div className="container">
           <Routes>
-            <Route path="/" element={<Home />}></Route>
+            <Route path="/" element={<Home />} />
+            <Route path="/create-campaign" element={<CreateCampaign />} />
+            <Route path="/compaign-details/:id" element={<Campaigns />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
       </div>

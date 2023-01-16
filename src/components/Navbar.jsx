@@ -3,11 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { Btn } from "./";
 import { logo, menu, search, thirdweb } from "../assets";
 import { navlinks } from "../constants";
+import { useStateContext } from "../contexts";
 
 const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => {
   const className = `flex justify-center items-center ${
     isActive && isActive === name && "bg-gray-700"
-  } ${!disabled ? "cursor-pointer hover:bg-gray-700" : "cursor-not-allowed"} ${styles}`;
+  } ${
+    !disabled ? "cursor-pointer hover:bg-gray-700" : "cursor-not-allowed"
+  } ${styles}`;
   return (
     <div className={className} onClick={handleClick}>
       <img
@@ -23,7 +26,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState("dashboard");
   const [toggleDrawer, setToggleDrawer] = useState(false);
-  const address = "0x1...";
+  const { connect, address } = useStateContext();
   return (
     <div className="flex md:flex-row flex-col-reverse items-center justify-between container py-4 mb-8">
       <div className="hidden md:flex-1 md:flex flex-row max-w-md py-2 pl-4 pr-2 h-12 bg-slate-800 rounded-[100px]">
@@ -43,10 +46,12 @@ const Navbar = () => {
       </div>
       <div className="hidden md:flex items-center justify-between flex-row gap-4">
         <Btn
-          title={address ? "create a campaign" : "Connect"}
-          style={address ? "bg-[#1dc071]" : "bg-#8c"}
+          btnType="button"
+          title={address ? "Create a campaign" : "Connect"}
+          style={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
           handleClick={() => {
-            address ? navigate("create-campaign") : "connect";
+            if (address) navigate("create-campaign");
+            else connect();
           }}
         />
         <Link to="/profile">
@@ -78,38 +83,52 @@ const Navbar = () => {
           </div>
         </Link>
         {toggleDrawer && (
-          <div className={` absolute top-[3.5rem] left-4 right-4 bg-slate-800 py-8 px-4 rounded-xl ${!toggleDrawer ? '-translate-y-[100vh]' : 'translate-y-0'} transition-all duration-300`}>
+          <div
+            className={` absolute top-[3.5rem] left-4 right-4 bg-slate-800 py-8 px-4 rounded-xl ${
+              !toggleDrawer ? "-translate-y-[100vh]" : "translate-y-0"
+            } transition-all duration-300`}
+          >
             <ul className="mb-4">
-            {navlinks.map((link) => (
+              {navlinks.map((link) => (
                 <li
                   key={link.name}
-                  className={`flex p-4 ${isActive === link.name && 'bg-[#3a3a43]'}`}
+                  className={`flex p-4 ${
+                    isActive === link.name && "bg-[#3a3a43]"
+                  }`}
                   onClick={() => {
                     setIsActive(link.name);
                     setToggleDrawer(false);
                     navigate(link.link);
                   }}
                 >
-                  <img 
+                  <img
                     src={link.imgUrl}
                     alt={link.name}
-                    className={`w-[24px] h-[24px] object-contain ${isActive === link.name ? 'grayscale-0' : 'grayscale'}`}
+                    className={`w-[24px] h-[24px] object-contain ${
+                      isActive === link.name ? "grayscale-0" : "grayscale"
+                    }`}
                   />
-                  <p className={`ml-[20px] font-epilogue font-semibold text-[14px] ${isActive === link.name ? 'text-[#1dc071]' : 'text-[#808191]'}`}>
+                  <p
+                    className={`ml-[20px] font-epilogue font-semibold text-[14px] ${
+                      isActive === link.name
+                        ? "text-[#1dc071]"
+                        : "text-[#808191]"
+                    }`}
+                  >
                     {link.name}
                   </p>
                 </li>
               ))}
             </ul>
             <div className="flex mx-4">
-            <Btn 
-              title={address ? 'Create a campaign' : 'Connect'}
-              styles={address ? 'bg-[#1dc071]' : 'bg-[#8c6dfd]'}
-              handleClick={() => {
-                if(address) navigate('create-campaign')
-                else 'connect';
-              }}
-            />
+              <Btn
+                title={address ? "Create a campaign" : "Connect"}
+                styles={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
+                handleClick={() => {
+                  if (address) navigate("create-campaign");
+                  else connect();
+                }}
+              />
             </div>
           </div>
         )}
