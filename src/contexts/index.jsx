@@ -43,13 +43,47 @@ export const StateContextProvider = ({ children }) => {
       console.error("error while contract call : " + error);
     }
   }
+  
+  async function getCampaigns() {
+    try {
+      const campaigns = await contract.call("getCampaigns");
+      const parsedCampaigns = campaigns.map((campaign, i) => ({
+        owner: campaign.owner,
+        title: campaign.title,
+        description: campaign.description,
+        target: ethers.utils.formatEther(campaign.target.toString()),
+        deadline: campaign.deadline.toNumber(),
+        amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
+        image: campaign.image,
+        pId: i,
+      }))
+      return parsedCampaigns;
+    } catch (error) {
+      console.log("error while getting campaigns : " + error);
+    }
+  }
+  async function getUserCampaigns() {
+    try {
+      const allCampaigns = await getCampaigns()
+      return allCampaigns.filter((campaign) => campaign.owner === address)
+    } catch (error) {
+      console.log("error while getting campaigns : " + error);
+    }
+  }
   return (
     <StateContext.Provider
-      value={{ address, contract, connect, createCampaign: publishCampaign }}
+      value={{
+        address,
+        contract,
+        connect,
+        createCampaign: publishCampaign,
+        getCampaigns,
+        getUserCampaigns
+      }}
     >
       {children}
     </StateContext.Provider>
   );
 };
 
-export const useStateContext = () => useContext(StateContext);
+export const useStateContext = () => useContext(StateContext)
