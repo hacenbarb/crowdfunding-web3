@@ -25,7 +25,6 @@ const CreateCampaign = () => {
   }
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(form);
     checkIfImage(form.image, async (exists) => {
       if (exists) {
         setIsLoading(true);
@@ -81,7 +80,7 @@ const CreateCampaign = () => {
             <FormField
               labelName="Story *"
               placeholder="Write your story"
-              isTextArea
+              isTextArea = {true}
               value={form.description}
               handleChange={(e) => handleFormFieldChange("description", e)}
             />

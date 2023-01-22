@@ -4,7 +4,7 @@ import { Navbar, Sidebar } from "./components";
 import { Home, Campaigns, CreateCampaign, Profile } from "./pages";
 const App = () => {
   return (
-    <div className="min-w-full min-h-screen bg-slate-900 text-zinc-100 flex flex-nowrap">
+    <div className="min-w-full min-h-screen bg-slate-900 text-zinc-100 flex flex-nowrap h-[3000px]">
       <div className="hidden md:flex mr-10 relative ml-auto">
         <Sidebar />
       </div>

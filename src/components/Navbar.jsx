@@ -28,7 +28,7 @@ const Navbar = () => {
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const { connect, address } = useStateContext();
   return (
-    <div className="flex md:flex-row flex-col-reverse items-center justify-between container py-4 mb-8">
+    <div className="flex md:flex-row flex-col-reverse items-center justify-between container py-4 mb-8 gap-4">
       <div className="hidden md:flex-1 md:flex flex-row max-w-md py-2 pl-4 pr-2 h-12 bg-slate-800 rounded-[100px]">
         <input
           type="text"

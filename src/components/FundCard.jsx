@@ -13,7 +13,6 @@ const FundCard = ({
   handleClick,
 }) => {
   const remainingDays = daysLeft(deadline);
-
   return (
     <div
       className="bg-slate-800 rounded-xl cursor-pointer shadow-2xl"

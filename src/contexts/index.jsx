@@ -43,7 +43,7 @@ export const StateContextProvider = ({ children }) => {
       console.error("error while contract call : " + error);
     }
   }
-  
+
   async function getCampaigns() {
     try {
       const campaigns = await contract.call("getCampaigns");
@@ -53,10 +53,12 @@ export const StateContextProvider = ({ children }) => {
         description: campaign.description,
         target: ethers.utils.formatEther(campaign.target.toString()),
         deadline: campaign.deadline.toNumber(),
-        amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
+        amountCollected: ethers.utils.formatEther(
+          campaign.amountCollected.toString()
+        ),
         image: campaign.image,
         pId: i,
-      }))
+      }));
       return parsedCampaigns;
     } catch (error) {
       console.log("error while getting campaigns : " + error);
@@ -64,11 +66,31 @@ export const StateContextProvider = ({ children }) => {
   }
   async function getUserCampaigns() {
     try {
-      const allCampaigns = await getCampaigns()
-      return allCampaigns.filter((campaign) => campaign.owner === address)
+      const allCampaigns = await getCampaigns();
+      return allCampaigns.filter((campaign) => campaign.owner === address);
     } catch (error) {
       console.log("error while getting campaigns : " + error);
     }
+  }
+  async function getDonations(pId) {
+    const donations = await contract.call("getDonators", pId);
+    const donationsNbr = donations[0].length;
+    const parsedDonations = [];
+
+    for (let i = 0; i < donationsNbr; i++) {
+      parsedDonations.push({
+        donator: donations[0][i],
+        donation: ethers.utils.formatEther(donations[1][i].toString())
+      });
+    }
+
+    return parsedDonations;
+  }
+  async function donate(pId, amount) {
+    const data = await contract.call("donateToCampaign", pId, {
+      value: ethers.utils.parseEther(amount),
+    });
+    return data;
   }
   return (
     <StateContext.Provider
@@ -78,7 +100,9 @@ export const StateContextProvider = ({ children }) => {
         connect,
         createCampaign: publishCampaign,
         getCampaigns,
-        getUserCampaigns
+        getUserCampaigns,
+        getDonations,
+        donate,
       }}
     >
       {children}
@@ -86,4 +110,4 @@ export const StateContextProvider = ({ children }) => {
   );
 };
 
-export const useStateContext = () => useContext(StateContext)
+export const useStateContext = () => useContext(StateContext);
