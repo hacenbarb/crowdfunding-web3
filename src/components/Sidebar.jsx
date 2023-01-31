@@ -1,26 +1,38 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { logo, sun } from "../assets";
 import { navlinks } from "../constants";
+import { useStateContext } from "../contexts";
 
 const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => {
-  const className = `flex justify-center items-center ${
-    isActive && isActive === name && "bg-gray-700"
-  } ${!disabled ? "cursor-pointer hover:bg-gray-700" : "cursor-not-allowed"} ${styles}`;
+  const className = `flex justify-center items-center ease-in-out duration-300 ${
+    isActive && isActive === name && "bg-slate-200 "
+  } ${
+    !disabled
+      ? "cursor-pointer hover:bg-slate-100 hover:grayscale-0"
+      : "cursor-not-allowed grayscale"
+  } ${styles}`;
   return (
     <div className={className} onClick={handleClick}>
       <img
         src={imgUrl}
         alt={name}
-        className={`w-full h-full p-2 ${isActive !== name && "grayscale"} `}
+        className={`w-full h-full p-2 ${
+          isActive !== name ? "grayscale-50" : ""
+        }`}
       />
     </div>
   );
 };
 const Sidebar = () => {
   const navigate = useNavigate();
-  const [isActive, setIsActive] = useState("dashboard");
-
+  const location = useLocation();
+  const { isActive, setIsActive } = useStateContext();
+  useEffect(() => {
+    const locationName = location.pathname.split("/")[1];
+    if (locationName !== "") setIsActive(locationName);
+    return () => setIsActive("dashboard");
+  });
   return (
     <div className="flex flex-col justify-between items-center sticky top-5 ml-5 px-3 py-3 h-[95vh]">
       <Link to="/">
@@ -49,8 +61,9 @@ const Sidebar = () => {
           ))}
         </div>
         <Icon
-          styles="bg-blue-900 color-white shadow-secondary rounded-xl"
+          styles="bg-secondary color-white shadow-secondary rounded-xl"
           imgUrl={sun}
+          disabled={true}
         />
       </div>
     </div>

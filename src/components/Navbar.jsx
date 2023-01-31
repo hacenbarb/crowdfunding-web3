@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Btn } from "./";
-import { logo, menu, search, thirdweb } from "../assets";
+import { Btn, Loader } from "./";
+import { logo, menu, search as searchIcon , thirdweb } from "../assets";
 import { navlinks } from "../constants";
 import { useStateContext } from "../contexts";
 
@@ -25,20 +25,41 @@ const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => {
 const Navbar = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState("dashboard");
+  const [isLoading, setIsLoading] = useState(false);
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const { connect, address } = useStateContext();
+  const [searchInput, setSearchInput] = useState('')
+  function handleConnect() {
+    if (address) navigate("create-campaign");
+    else {
+      setIsLoading(true);
+      connect();
+      setIsLoading(false);
+    }
+  }
+  function handleChange(e) {
+    setSearchInput(e.target.value)
+  }
+  function search() {
+    if(searchInput === '') {
+
+    }
+  }
   return (
     <div className="flex md:flex-row flex-col-reverse items-center justify-between container py-4 mb-8 gap-4">
+      {isLoading && <Loader />}
       <div className="hidden md:flex-1 md:flex flex-row max-w-md py-2 pl-4 pr-2 h-12 bg-slate-800 rounded-[100px]">
         <input
           type="text"
           placeholder="Search for campaigns"
+          value={searchInput}
+          onChange={handleChange}
           className="flex w-full font-epilogue font-normal text-[14px] placeholder:text-gray-400 text-slate-100 bg-transparent outline-none"
         />
 
-        <div className="w-20 h-full rounded-3xl bg-[#4acd8d] flex justify-center items-center cursor-pointer">
+        <div className="w-20 h-full rounded-3xl bg-primary flex justify-center items-center cursor-pointer" onClick={search}>
           <img
-            src={search}
+            src={searchIcon}
             alt="search"
             className="w-4 h-4 object-contain text-white"
           />
@@ -48,11 +69,8 @@ const Navbar = () => {
         <Btn
           btnType="button"
           title={address ? "Create a campaign" : "Connect"}
-          style={address ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
-          handleClick={() => {
-            if (address) navigate("create-campaign");
-            else connect();
-          }}
+          style={address ? "bg-primary" : "bg-secondary-light"}
+          handleClick={handleConnect}
         />
         <Link to="/profile">
           <div className="w-12 h-12 rounded-full bg-gray-800 shadow-lg flex justify-center items-center cursor-pointer">
@@ -111,7 +129,7 @@ const Navbar = () => {
                   <p
                     className={`ml-[20px] font-epilogue font-semibold text-[14px] ${
                       isActive === link.name
-                        ? "text-[#1dc071]"
+                        ? "text-primary"
                         : "text-[#808191]"
                     }`}
                   >

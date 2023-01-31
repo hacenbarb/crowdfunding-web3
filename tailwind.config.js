@@ -18,16 +18,16 @@ module.exports = {
       sans: ["Open Sans", "sans-serif"],
     },
     extend: {
-      // colors: {
-      //   violte: "#560bad",
-      //   "violte-light": "#560bad",
-      //   blue: "#4361ee",
-      //   "blue-light": "#4895ef",
-      //   cyan: "#4cc9f0",
-      //   black: "#10002b",
-      //   white: "#FEFFFE",
-      //   transparent: "transparent",
-      // },
+      colors: {
+        primary: "#560bad",
+        "primary-light": "#7209b7",
+        secondary: "#4361ee",
+        "secondary-light": "#4895ef",
+        tertiary: "#4cc9f0",
+      },
+      grayscale: {
+        50: '50%',
+      }
     },
   },
   plugins: [],

@@ -15,7 +15,7 @@ export const navlinks = [
     disabled: false,
   },
   {
-    name: "campaign",
+    name: "create-campaign",
     imgUrl: createCampaign,
     link: "/create-campaign",
     disabled: false,

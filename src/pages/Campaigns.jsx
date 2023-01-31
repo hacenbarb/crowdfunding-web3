@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { ethers } from "ethers";
 import { useStateContext } from "../contexts";
-import { Btn, CountBox, FormField } from "../components";
+import { Btn, CountBox, FormField, Loader } from "../components";
 import { daysLeft, calculateBarPercentage } from "../utils";
-import { thirdweb, loader } from "../assets";
+import { thirdweb } from "../assets";
 
 const Campaigns = () => {
   const { state } = useLocation();
@@ -35,23 +34,21 @@ const Campaigns = () => {
     }
     setIsLoading(false);
   }
-  // you have to clean this later
   useEffect(() => {
-    if (contract) fetchDonators();
+    const controller = new AbortController();
+    const signal = controller.signal;
+    setIsLoading(true);
+    if (contract && signal) fetchDonators();
+    setIsLoading(false);
+    return () => {
+      controller.abort();
+    };
   }, [contract, address]);
-  console.log(calculateBarPercentage(state.target, state.amountCollected));
   return (
     <>
       <h2>Campaign Details {state.name}</h2>
       {isLoading ? (
-        <div className="w-full h-full flex items-center justify-center mt-8">
-          <img
-            src={loader}
-            alt="loading"
-            className="object-contain w-[150px] h-[150px]"
-          />
-          <p>Please wait..</p>
-        </div>
+        <Loader />
       ) : (
         <>
           <div className="grid grid-cols-3 lg:grid-cols-4 lg:grid-row-3 gap-x-4 gap-y-8 mt-8">
@@ -125,14 +122,19 @@ const Campaigns = () => {
                       😅 Ther's no donations yet, You can be the first one!
                     </p>
                   ) : (
-                      donators.map((donator, index) => (
-                        <div key={`${donator.donator}-${index}`} className="flex justify-between items-center gap-4 w-full">
-                          <p className="text-sm text-slate-300">{index + 1 }. {donator.donator}</p>
-                          <p className="text-md text-green-500">
-                            {donator.donation}
-                          </p>
-                        </div>
-                      ))
+                    donators.map((donator, index) => (
+                      <div
+                        key={`${donator.donator}-${index}`}
+                        className="flex justify-between items-center gap-4 w-full"
+                      >
+                        <p className="text-sm text-slate-300">
+                          {index + 1}. {donator.donator}
+                        </p>
+                        <p className="text-md text-green-500">
+                          {donator.donation}
+                        </p>
+                      </div>
+                    ))
                   )}
                 </div>
               </div>

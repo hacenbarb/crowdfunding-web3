@@ -133,7 +133,7 @@ const CreateCampaign = () => {
               <Btn
                 btnType="submit"
                 title="Submit new campaign"
-                style="bg-[#1dc071] px-4"
+                style="px-4"
                 onSubmit="handleSubmit"
               />
             </div>

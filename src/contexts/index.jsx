@@ -1,4 +1,4 @@
-import React, { useContext, createContext } from "react";
+import React, { useState, useContext, createContext } from "react";
 import {
   useAddress,
   useContract,
@@ -6,7 +6,7 @@ import {
   useContractWrite,
 } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
-import { EditionMetadataWithOwnerOutputSchema } from "@thirdweb-dev/sdk";
+// import { EditionMetadataWithOwnerOutputSchema } from "@thirdweb-dev/sdk";
 
 const StateContext = createContext();
 
@@ -20,7 +20,7 @@ export const StateContextProvider = ({ children }) => {
   );
   const address = useAddress();
   const connect = useMetamask();
-
+  const [isActive, setIsActive] = useState('dashboard')
   async function publishCampaign({
     title,
     description,
@@ -73,28 +73,38 @@ export const StateContextProvider = ({ children }) => {
     }
   }
   async function getDonations(pId) {
-    const donations = await contract.call("getDonators", pId);
-    const donationsNbr = donations[0].length;
-    const parsedDonations = [];
-
-    for (let i = 0; i < donationsNbr; i++) {
-      parsedDonations.push({
-        donator: donations[0][i],
-        donation: ethers.utils.formatEther(donations[1][i].toString())
-      });
+    try {
+      const donations = await contract.call("getDonators", pId);
+      const donationsNbr = donations[0].length;
+      const parsedDonations = [];
+  
+      for (let i = 0; i < donationsNbr; i++) {
+        parsedDonations.push({
+          donator: donations[0][i],
+          donation: ethers.utils.formatEther(donations[1][i].toString())
+        });
+      }
+  
+      return parsedDonations;
+    } catch (error) {
+      console.error("error: " + error )
     }
-
-    return parsedDonations;
   }
   async function donate(pId, amount) {
-    const data = await contract.call("donateToCampaign", pId, {
-      value: ethers.utils.parseEther(amount),
-    });
-    return data;
+    try {
+      const data = await contract.call("donateToCampaign", pId, {
+        value: ethers.utils.parseEther(amount),
+      });
+      return data;
+    } catch (error) {
+      console.error("error: " + error )
+    }
   }
   return (
     <StateContext.Provider
       value={{
+        isActive,
+        setIsActive,
         address,
         contract,
         connect,
