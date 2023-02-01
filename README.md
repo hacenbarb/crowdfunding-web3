@@ -1,16 +1,25 @@
-## Getting Started
+# Crowdfunding 
 
-Create a project using this example:
+`Join the decentralized revolution with our web3 crowdfunding platform. Invest in innovative projects, securely and transparently, using cryptocurrency.`
 
-```bash
-npx thirdweb create --template vite-javascript-starter
-```
+‼ this project is only for learning purposes
 
-You can start editing the page by modifying `src/main.jsx`. The page auto-updates as you edit the file.
+## What is Web3 ?
 
-On `src/index.jsx`, you'll find our `ThirdwebProvider` wrapping your app,
-this is necessary for our [hooks](https://portal.thirdweb.com/react) and
-[UI Components](https://portal.thirdweb.com/ui-components) to work.
+Web3 refers to the next generation of the internet, where users have more control over their data and interactions with decentralized systems, rather than relying on centralized intermediaries. In a web3 context, crowdfunding allows for secure and transparent investment opportunities without the need for a middleman, enabling a more equitable and efficient system for both investors and project creators.
+
+## Why we use blockchain in crowdfunding ?
+
+* `Decentralization`: Blockchain eliminates the need for intermediaries and creates a decentralized platform for transactions, making the process more secure, transparent, and efficient.
+
+* `Immutable Record-Keeping`: Transactions made on the blockchain are permanent and can't be altered, providing a tamper-proof record of all investments and funding.
+
+* `Faster Payments`: Blockchain technology enables faster, peer-to-peer transactions without the need for intermediaries, reducing wait times for funding disbursements.
+
+* `Tokenization`: The ability to issue unique tokens for each project on the blockchain allows for easy tracking of investment and distribution of rewards.
+
+* `Security`: Blockchain's cryptographic security measures protect against hacking, fraud, and other malicious activities.
+
 
 ### Deploy to IPFS
 
@@ -30,8 +39,4 @@ To learn more about thirdweb, Vite and React, take a look at the following resou
 - [Vite Documentation](https://vitejs.dev/guide/) - learn about Vite features.
 - [React documentation](https://reactjs.org/) - learn React.
 
-You can check out [the thirdweb GitHub organization](https://github.com/thirdweb-dev) - your feedback and contributions are welcome!
-
-## Join our Discord!
-
-For any questions, suggestions, join our discord at [https://discord.gg/thirdweb](https://discord.gg/thirdweb).
+this project is made with ♥ by [@hacenbarb](https://github.com/hacenbarb)
