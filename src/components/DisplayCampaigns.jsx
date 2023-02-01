@@ -14,7 +14,7 @@ const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
       ) : (
         <>
           {campaigns.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-6 mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 xl:gap-6 mt-8 px-4 md:px-0">
               {campaigns.map((campaign) => (
                 <FundCard
                   key={campaign.pId}

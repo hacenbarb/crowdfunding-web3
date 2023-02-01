@@ -15,7 +15,7 @@ const Loader = () => {
       alt="loading"
       className="object-contain w-[150px] h-[150px]"
     />
-    <p className='text-sm text-slate-500'>Loading.. please wait a few moments</p>
+    <p className='text-sm text-slate-500'>please wait a few moments..</p>
   </div>
   )
 }

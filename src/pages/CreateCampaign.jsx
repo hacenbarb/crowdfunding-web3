@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CgDanger } from "react-icons/cg";
-import { createCampaign, money } from "../assets";
-import { Btn, FormField } from "../components";
+import { money } from "../assets";
+import { Btn, FormField, Loader } from "../components";
 import { useStateContext } from "../contexts";
 import { ethers } from "ethers";
 import { checkIfImage } from "../utils";
@@ -47,7 +47,7 @@ const CreateCampaign = () => {
   return (
     <div className="bg-[#1c1c24] flex justify-center items-center flex-col rounded-[10px] sm:p-10 p-4">
       {isLoading ? (
-        <p>Loading</p>
+        <Loader />
       ) : (
         <>
           <div className="flex justify-center items-center">
